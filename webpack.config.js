@@ -7,12 +7,12 @@ module.exports = {
   devtool: '#eval-source-map',
   entry: [
     'webpack-hot-middleware/client',
-    './client/app.js'
+    './app/index.js'
   ],
   output: {
-    path: __dirname,
+    path: __dirname + '/dist',
     filename: 'bundle.js',
-    publicPath: '/'
+    publicPath: '/dist'
   },
   plugins: [
     new webpack.optimize.OccurenceOrderPlugin(),
@@ -21,39 +21,20 @@ module.exports = {
   ],
   resolve: {
     extensions: ['', '.js'],
-    alias: {
-      request: 'browser-request'
-    }
   },
   module: {
     loaders: [
       // Javascript
       {
-        test: /\.js$/,
+        test: /\.js?$/,
         loader: 'babel',
-        include: path.join(__dirname, 'client'),
-        query: {
-          "env": {
-            "development": {
-              "presets": ["react-hmre"],
-              "plugins": [
-                ["react-transform", {
-                  "transforms": [{
-                    "transform": "react-transform-hmr",
-                    "imports": ["react"],
-                    "locals": ["module"]
-                  }]
-                }]
-              ]
-            }
-          },
-        }
+        include: path.join(__dirname, 'app'),
       },
 
       // CSS
       {
         test: /\.css$/,
-        include: path.join(__dirname, 'client'),
+        include: path.join(__dirname, 'app'),
         loader: 'style-loader!css-loader?' + qs.stringify({
           modules: true,
           importLoaders: 1,
